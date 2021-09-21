@@ -14,6 +14,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.moneywiseresearch.ui.theme.MoneyWiseResearchTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,9 +25,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
            MyApp(
-               { CodeLabMyScreenContent() }
+               { Loader() }
            )
         }
+    }
+}
+
+
+@Composable
+fun Loader(){
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.money))
+    val progress by animateLottieCompositionAsState(composition)
+
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.Center
+    ){
+        LottieAnimation(composition)
     }
 }
 
@@ -32,7 +52,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MyApp{
-        CodeLabMyScreenContent()
+        Loader()
     }
 
 }
