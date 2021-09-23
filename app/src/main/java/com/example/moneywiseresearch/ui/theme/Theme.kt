@@ -1,5 +1,6 @@
 package com.example.moneywiseresearch.ui.theme
 
+import android.graphics.Color
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -10,7 +11,6 @@ private val DarkColorPalette = darkColors(
     primary = LightBlue,
     primaryVariant = orange,
     secondary = orange,
-    onBackground = oatmeal,
     onSurface = oatmeal
 )
 
@@ -18,7 +18,6 @@ private val LightColorPalette = lightColors(
     primary = LightBlue,
     primaryVariant = orange,
     secondary = orange,
-    onBackground = oatmeal,
     onSurface = oatmeal
 
     /* Other default colors to override
