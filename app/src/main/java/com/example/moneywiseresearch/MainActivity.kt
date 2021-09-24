@@ -56,10 +56,20 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MyApp{
-        QuizScreen()
+        test()
     }
 
 }
+
+@Composable
+fun test(){
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        modifier = Modifier.size(100.dp),
+        backgroundColor = Color.DarkGray
+    ){}
+}
+
 
 //INTRINSICS
 @Composable

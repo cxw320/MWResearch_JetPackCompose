@@ -30,6 +30,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstrainedLayoutReference
@@ -48,8 +49,8 @@ fun QuizScreen(){
     Scaffold(
         modifier = Modifier
             .fillMaxHeight()
-            .fillMaxWidth()
-            .border(BorderStroke(2.dp, Color.Red))
+            .fillMaxWidth(),
+        backgroundColor = Color(0xFFe8f5fa)
     ){
         innerPadding->
         QuizLayout(Modifier.padding(innerPadding),answerOptions)
@@ -63,42 +64,49 @@ data class AnswerOption(val answerOptionText: String)
 @Composable
 fun QuizLayout(modifier: Modifier = Modifier, answerOptions: List<AnswerOption>){
     ConstraintLayout(
-        modifier = Modifier.padding(20.dp)
-    ){
+        modifier = Modifier.size(780.dp).padding(20.dp)
+    ) {
 
-        val(quizContainer, questionText) = createRefs()
+        val (quizContainer, questionText) = createRefs()
 
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
 
-            modifier = modifier
-                .constrainAs(quizContainer) {
-                    top.linkTo(parent.top, margin = 40.dp)
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .constrainAs(quizContainer) {
+                        top.linkTo(parent.top, margin = 7.dp)
+                    }
+                    .border(
+                        BorderStroke(10.dp, Color.White)
+                    ))
+            {
+
+                Surface(
+                    color = MaterialTheme.colors.primaryVariant,
+                    modifier = Modifier
+                        .size(450.dp, 270.dp)
+                ) {
+                    QuestionText()
                 }
-                .border(
-                    BorderStroke(2.dp, Color.Black)
-                ))
-        {
-            Row(
-                modifier = Modifier
-                    .border(BorderStroke(2.dp, Color.Red))
-                    .size(500.dp, 300.dp)
-            ) {
-                QuestionText()
-            }
-            LazyVerticalGrid(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-                cells = GridCells.Fixed(2)
-            ){
-                items(answerOptions){answerOption->
-                    AnswerCard(answerOption)
+                Surface(
+                    color = MaterialTheme.colors.primary,
+                ) {
+                    LazyVerticalGrid(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentPadding = PaddingValues(12.dp),
+                        cells = GridCells.Fixed(2)
+//                        verticalArrangement = Arrangement.spacedBy(10.dp),
+//                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        items(answerOptions) { answerOption ->
+                            AnswerCard(answerOption)
+                        }
+                    }
                 }
             }
         }
-    }
 }
 
 @Composable
@@ -107,12 +115,13 @@ fun QuestionText(){
         val(questionText) = createRefs()
 
         Text(text = "What metrics are a part of your financial journey?",
-            color = Color.Black,
+            color = Color.White,
             modifier = Modifier.constrainAs(questionText) {
-                top.linkTo(parent.top, margin = 100.dp)
+                top.linkTo(parent.top, margin = 90.dp)
             }
                 .padding(20.dp),
             fontSize = 25.sp,
+            fontWeight = FontWeight.Bold,
             style = TextStyle(
                 textAlign = TextAlign.Center
             )
@@ -125,8 +134,8 @@ fun QuestionText(){
 fun AnswerCard(answerOption: AnswerOption){
     Card(
         shape = RoundedCornerShape(10.dp),
-        modifier = Modifier.border(BorderStroke(2.dp,Color.Green))
-            .size(200.dp)
+        backgroundColor = Color.White,
+        modifier = Modifier.size(200.dp).padding(10.dp)
     ){
         AnswerText(answerOption)
     }
@@ -138,12 +147,12 @@ fun AnswerText(answerOption: AnswerOption){
         val(answerText) = createRefs()
 
         Text(text = answerOption.answerOptionText,
-            color = Color.Black,
+            color = Color(0xFF555555),
             modifier = Modifier.constrainAs(answerText) {
                 top.linkTo(parent.top, margin = 55.dp)
             }
                 .padding(5.dp),
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             style = TextStyle(
                 textAlign = TextAlign.Center
             )
