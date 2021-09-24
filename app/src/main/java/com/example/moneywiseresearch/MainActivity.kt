@@ -40,21 +40,23 @@ import com.example.moneywiseresearch.ui.theme.MoneyWiseResearchTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
            MyApp(
-               { DecoupledConstraintLayout() }
+               { QuizScreen() }
            )
         }
     }
 }
 
+@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     MyApp{
-        DecoupledConstraintLayout()
+        QuizScreen()
     }
 
 }
