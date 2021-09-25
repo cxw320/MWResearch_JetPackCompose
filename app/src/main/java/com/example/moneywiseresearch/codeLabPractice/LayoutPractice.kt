@@ -22,8 +22,6 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.moneywiseresearch.BodyContent
-import com.example.moneywiseresearch.MyApp
 import com.example.moneywiseresearch.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,132 +33,132 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstrainedLayoutReference
 
-
-@ExperimentalFoundationApi
-@Composable
-fun QuizScreen(){
-    var answerOption1 = AnswerOption("Wealth, Security, Happiness")
-    var answerOption2 = AnswerOption("Fredom, Liberty, Happiness")
-    var answerOption3 = AnswerOption("Cash, Money, Wealth")
-    var answerOption4 = AnswerOption("Credit, Checkings, Loans")
-    var answerOptions : List<AnswerOption> = listOf(
-        answerOption1,answerOption2,answerOption3,answerOption4)
-
-    Scaffold(
-        modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth(),
-        backgroundColor = Color(0xFFe8f5fa)
-    ){
-        innerPadding->
-        QuizLayout(Modifier.padding(innerPadding),answerOptions)
-    }
-
-}
-
-data class AnswerOption(val answerOptionText: String)
-
-@ExperimentalFoundationApi
-@Composable
-fun QuizLayout(modifier: Modifier = Modifier, answerOptions: List<AnswerOption>){
-    ConstraintLayout(
-        modifier = Modifier.size(780.dp).padding(20.dp)
-    ) {
-
-        val (quizContainer, questionText) = createRefs()
-
-
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = modifier
-                    .constrainAs(quizContainer) {
-                        top.linkTo(parent.top, margin = 7.dp)
-                    }
-                    .border(
-                        BorderStroke(10.dp, Color.White)
-                    ))
-            {
-
-                Surface(
-                    color = MaterialTheme.colors.primaryVariant,
-                    modifier = Modifier
-                        .size(450.dp, 270.dp)
-                ) {
-                    QuestionText()
-                }
-                Surface(
-                    color = MaterialTheme.colors.primary,
-                ) {
-                    LazyVerticalGrid(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentPadding = PaddingValues(12.dp),
-                        cells = GridCells.Fixed(2)
-//                        verticalArrangement = Arrangement.spacedBy(10.dp),
-//                        horizontalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        items(answerOptions) { answerOption ->
-                            AnswerCard(answerOption)
-                        }
-                    }
-                }
-            }
-        }
-}
-
-@Composable
-fun QuestionText(){
-    ConstraintLayout {
-        val(questionText) = createRefs()
-
-        Text(text = "What metrics are a part of your financial journey?",
-            color = Color.White,
-            modifier = Modifier.constrainAs(questionText) {
-                top.linkTo(parent.top, margin = 90.dp)
-            }
-                .padding(20.dp),
-            fontSize = 25.sp,
-            fontWeight = FontWeight.Bold,
-            style = TextStyle(
-                textAlign = TextAlign.Center
-            )
-        )
-    }
-}
-
-
-@Composable
-fun AnswerCard(answerOption: AnswerOption){
-    Card(
-        shape = RoundedCornerShape(10.dp),
-        backgroundColor = Color.White,
-        modifier = Modifier.size(200.dp).padding(10.dp)
-    ){
-        AnswerText(answerOption)
-    }
-}
-
-@Composable
-fun AnswerText(answerOption: AnswerOption){
-    ConstraintLayout {
-        val(answerText) = createRefs()
-
-        Text(text = answerOption.answerOptionText,
-            color = Color(0xFF555555),
-            modifier = Modifier.constrainAs(answerText) {
-                top.linkTo(parent.top, margin = 55.dp)
-            }
-                .padding(5.dp),
-            fontSize = 16.sp,
-            style = TextStyle(
-                textAlign = TextAlign.Center
-            )
-        )
-    }
-}
-
-
+//
+//@ExperimentalFoundationApi
+//@Composable
+//fun QuizScreen(){
+//    var answerOption1 = AnswerOption("Wealth, Security, Happiness")
+//    var answerOption2 = AnswerOption("Fredom, Liberty, Happiness")
+//    var answerOption3 = AnswerOption("Cash, Money, Wealth")
+//    var answerOption4 = AnswerOption("Credit, Checkings, Loans")
+//    var answerOptions : List<AnswerOption> = listOf(
+//        answerOption1,answerOption2,answerOption3,answerOption4)
+//
+//    Scaffold(
+//        modifier = Modifier
+//            .fillMaxHeight()
+//            .fillMaxWidth(),
+//        backgroundColor = Color(0xFFe8f5fa)
+//    ){
+//        innerPadding->
+//        QuizLayout(Modifier.padding(innerPadding),answerOptions)
+//    }
+//
+//}
+//
+//data class AnswerOption(val answerOptionText: String)
+//
+//@ExperimentalFoundationApi
+//@Composable
+//fun QuizLayout(modifier: Modifier = Modifier, answerOptions: List<AnswerOption>){
+//    ConstraintLayout(
+//        modifier = Modifier.size(780.dp).padding(20.dp)
+//    ) {
+//
+//        val (quizContainer, questionText) = createRefs()
+//
+//
+//            Column(
+//                verticalArrangement = Arrangement.Center,
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                modifier = modifier
+//                    .constrainAs(quizContainer) {
+//                        top.linkTo(parent.top, margin = 7.dp)
+//                    }
+//                    .border(
+//                        BorderStroke(10.dp, Color.White)
+//                    ))
+//            {
+//
+//                Surface(
+//                    color = MaterialTheme.colors.primaryVariant,
+//                    modifier = Modifier
+//                        .size(450.dp, 270.dp)
+//                ) {
+//                    QuestionText()
+//                }
+//                Surface(
+//                    color = MaterialTheme.colors.primary,
+//                ) {
+//                    LazyVerticalGrid(
+//                        modifier = Modifier
+//                            .fillMaxSize(),
+//                        contentPadding = PaddingValues(12.dp),
+//                        cells = GridCells.Fixed(2)
+////                        verticalArrangement = Arrangement.spacedBy(10.dp),
+////                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+//                    ) {
+//                        items(answerOptions) { answerOption ->
+//                            AnswerCard(answerOption)
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//}
+//
+//@Composable
+//fun QuestionText(){
+//    ConstraintLayout {
+//        val(questionText) = createRefs()
+//
+//        Text(text = "What metrics are a part of your financial journey?",
+//            color = Color.White,
+//            modifier = Modifier.constrainAs(questionText) {
+//                top.linkTo(parent.top, margin = 90.dp)
+//            }
+//                .padding(20.dp),
+//            fontSize = 25.sp,
+//            fontWeight = FontWeight.Bold,
+//            style = TextStyle(
+//                textAlign = TextAlign.Center
+//            )
+//        )
+//    }
+//}
+//
+//
+//@Composable
+//fun AnswerCard(answerOption: AnswerOption){
+//    Card(
+//        shape = RoundedCornerShape(10.dp),
+//        backgroundColor = Color.White,
+//        modifier = Modifier.size(200.dp).padding(10.dp)
+//    ){
+//        AnswerText(answerOption)
+//    }
+//}
+//
+//@Composable
+//fun AnswerText(answerOption: AnswerOption){
+//    ConstraintLayout {
+//        val(answerText) = createRefs()
+//
+//        Text(text = answerOption.answerOptionText,
+//            color = Color(0xFF555555),
+//            modifier = Modifier.constrainAs(answerText) {
+//                top.linkTo(parent.top, margin = 55.dp)
+//            }
+//                .padding(5.dp),
+//            fontSize = 16.sp,
+//            style = TextStyle(
+//                textAlign = TextAlign.Center
+//            )
+//        )
+//    }
+//}
+//
+//
 
 
 //
@@ -202,12 +200,12 @@ fun AnswerText(answerOption: AnswerOption){
 //    }
 //}
 
-@ExperimentalFoundationApi
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MyApp{
-        QuizScreen()
-    }
-
-}
+//@ExperimentalFoundationApi
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    MyApp{
+//        QuizScreen()
+//    }
+//
+//}
