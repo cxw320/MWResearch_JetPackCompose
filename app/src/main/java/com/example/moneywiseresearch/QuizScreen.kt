@@ -1,8 +1,10 @@
 package com.example.moneywiseresearch
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -10,6 +12,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,9 +30,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 fun QuizScreen(
     questionText: String,
     answerOptions:List<String>,
-    onSelectAnswer: (String) -> Unit
+    onAnswerClick: (String) -> Unit,
+    selectedAnswer: String
     ){
-
 
     Scaffold(
         modifier = Modifier
@@ -37,7 +41,7 @@ fun QuizScreen(
         backgroundColor = Color(0xFFe8f5fa)
     ){
             innerPadding->
-        QuizLayout(Modifier.padding(innerPadding),questionText,answerOptions)
+        QuizLayout(Modifier.padding(innerPadding),questionText,answerOptions, onAnswerClick,selectedAnswer)
     }
 
 }
@@ -46,7 +50,14 @@ data class AnswerOption(val answerOptionText: String)
 
 @ExperimentalFoundationApi
 @Composable
-fun QuizLayout(modifier: Modifier = Modifier, questionText: String,answerOptions: List<String>){
+fun QuizLayout(modifier: Modifier = Modifier,
+               questionText: String,
+               answerOptions: List<String>,
+               onAnswerClick: (String)->Unit,
+               selectedAnswer:String
+               ) {
+
+
     ConstraintLayout(
         modifier = Modifier.size(780.dp).padding(20.dp)
     ) {
@@ -85,7 +96,13 @@ fun QuizLayout(modifier: Modifier = Modifier, questionText: String,answerOptions
 //                        horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     items(answerOptions) { answerOption ->
-                        AnswerCard(answerOption)
+                        if(selectedAnswer==""){
+                            AnswerCard(answerOption, onAnswerClick)
+                        }else if (selectedAnswer == answerOption) {
+                            AnswerCard(answerOption, onAnswerClick)
+                        } else {
+                            AnswerCardFaded(answerOption)
+                        }
                     }
                 }
             }
@@ -115,23 +132,40 @@ fun QuestionText(questionText:String){
 
 
 @Composable
-fun AnswerCard(answerOption: String){
+fun AnswerCard(answerOption: String,onAnswerClick: (String) -> Unit ){
     Card(
         shape = RoundedCornerShape(10.dp),
         backgroundColor = Color.White,
-        modifier = Modifier.size(200.dp).padding(10.dp)
+        modifier = Modifier.size(200.dp)
+            .padding(10.dp)
+            .clickable{
+                Log.d("Caroline","clickable is working")
+                onAnswerClick(answerOption)
+                Log.d("Caroline","clickable is working")}
     ){
-        AnswerText(answerOption)
+        AnswerText(answerOption,Color(0xFF555555))
     }
 }
 
 @Composable
-fun AnswerText(answerOption: String){
+fun AnswerCardFaded(answerOption: String ){
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        backgroundColor = Color.Gray,
+        modifier = Modifier.size(200.dp)
+            .padding(10.dp)
+    ){
+        AnswerText(answerOption,Color.DarkGray)
+    }
+}
+
+@Composable
+fun AnswerText(answerOption: String, color:Color){
     ConstraintLayout {
         val(answerText) = createRefs()
 
         Text(text = answerOption,
-            color = Color(0xFF555555),
+            color = color,
             modifier = Modifier.constrainAs(answerText) {
                 top.linkTo(parent.top, margin = 55.dp)
             }

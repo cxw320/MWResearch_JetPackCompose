@@ -70,6 +70,7 @@ class MainActivity : ComponentActivity() {
 fun QuizActivityScreen(quizViewModel: QuizViewModel){
     val questionText : String by quizViewModel.questionText.observeAsState("")
     val answerOptions : List<String> by quizViewModel.answerText.observeAsState(listOf())
+    val selectedAnswer: String by quizViewModel.selectedAnswer.observeAsState("")
 
     //POPULATE VIEW MODEL DATA
     quizViewModel.retrieveQuizData()
@@ -77,6 +78,7 @@ fun QuizActivityScreen(quizViewModel: QuizViewModel){
     QuizScreen(
         questionText = questionText,
         answerOptions = answerOptions,
-        onSelectAnswer = {quizViewModel.selectAnswer()}
+        onAnswerClick = {quizViewModel.selectAnswer(it)},
+        selectedAnswer = selectedAnswer
     )
 }

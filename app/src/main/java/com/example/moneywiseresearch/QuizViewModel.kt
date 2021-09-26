@@ -1,5 +1,6 @@
 package com.example.moneywiseresearch
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,8 +13,12 @@ class QuizViewModel : ViewModel(){
     private var _answerOptionTexts = MutableLiveData(listOf<String>())
     val answerText: MutableLiveData<List<String>> = _answerOptionTexts
 
-    fun selectAnswer(answerOptionText: String){
+    private var _selectedAnswer= MutableLiveData<String>()
+    val selectedAnswer : MutableLiveData<String> = _selectedAnswer
 
+    fun selectAnswer(answerOptionText: String){
+        Log.d("Caroline",answerOptionText)
+        _selectedAnswer.value = answerOptionText
     }
 
     fun retrieveQuizData(){
