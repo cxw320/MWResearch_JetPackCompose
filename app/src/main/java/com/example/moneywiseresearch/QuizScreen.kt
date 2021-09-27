@@ -23,6 +23,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 
 @ExperimentalMaterialApi
@@ -60,7 +62,7 @@ fun QuizLayout(modifier: Modifier = Modifier,
     ConstraintLayout(
         modifier = Modifier.size(780.dp).padding(20.dp)
     ) {
-
+       // Log.d("Caroline","initial value for quiz layout: "+currentQuestion.correctAnswer)
         val (correctAnswer) = remember {mutableStateOf(currentQuestion.correctAnswer)}
         val (quizContainer) = createRefs()
 
@@ -84,41 +86,7 @@ fun QuizLayout(modifier: Modifier = Modifier,
             ) {
                 QuestionText(currentQuestion.questionText)
             }
-            Surface(
-                color = MaterialTheme.colors.primary,
-            ) {
-                LazyVerticalGrid(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentPadding = PaddingValues(12.dp),
-                    cells = GridCells.Fixed(2)
-//                        verticalArrangement = Arrangement.spacedBy(10.dp),
-//                        horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-
-                    if(selectedAnswer==""){
-                        items(currentQuestion.answerOptions) { answerOption ->
-                            AnswerCardDefault(answerOption,onAnswerClick)
-                        }
-                    }else if(selectedAnswer!=correctAnswer){
-                        items(currentQuestion.answerOptions) { answerOption ->
-                            if(answerOption == correctAnswer){
-                                AnswerCardCorrect(answerOption)
-                            }else if(answerOption == selectedAnswer){
-                                AnswerCardIncorrect(answerOption)
-                            }else{
-                                AnswerCardDefault(answerOption,onAnswerClick)
-                            }
-                        }
-                    }else{
-                        items(currentQuestion.answerOptions){answerOption ->
-                            if(answerOption==correctAnswer){
-                                AnswerCardCorrect(answerOption)
-                            }else{
-                                AnswerCardDefault(answerOption,onAnswerClick)
-                            }
-                        }
-                    }
+            AnswerGrid(currentQuestion, onAnswerClick, selectedAnswer)
 
 //                    items(currentQuestion.answerOptions) { answerOption ->
 //                        if(selectedAnswer==""){
@@ -131,6 +99,59 @@ fun QuizLayout(modifier: Modifier = Modifier,
 //                            AnswerCardDefault(answerOption, onAnswerClick)
 //                        }
 //                    }
+//                }
+//            }
+        }
+    }
+}
+
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
+@Composable
+fun AnswerGrid(
+    currentQuestion:QuizQuestion,
+    onAnswerClick: (String) ->Unit,
+    selectedAnswer: String
+) {
+    Surface(
+        color = MaterialTheme.colors.primary,
+    ) {
+        Log.d("Caroline","initial value for quiz layout: "+currentQuestion.correctAnswer)
+       // val correctAnswer by remember {mutableStateOf(currentQuestion.correctAnswer)}
+
+        LazyVerticalGrid(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentPadding = PaddingValues(12.dp),
+            cells = GridCells.Fixed(2)
+//                        verticalArrangement = Arrangement.spacedBy(10.dp),
+//                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Log.d("Caroline", "initial value for quiz layout: " + currentQuestion.correctAnswer)
+
+            if (selectedAnswer == "") {
+                items(currentQuestion.answerOptions) { answerOption ->
+                    AnswerCardDefault(answerOption, onAnswerClick)
+                }
+            } else if (selectedAnswer != currentQuestion.correctAnswer) {
+
+                items(currentQuestion.answerOptions) { answerOption ->
+                    if(answerOption == currentQuestion.correctAnswer){
+                        AnswerCardCorrect(answerOption)
+                    }else if(answerOption ==selectedAnswer){
+                        AnswerCardIncorrect(answerOption)
+                    }else{
+                        AnswerCardDefault(answerOption,onAnswerClick)
+                    }
+                }
+            } else {
+                items(currentQuestion.answerOptions) { answerOption ->
+                    if(answerOption ==currentQuestion.correctAnswer){
+                        AnswerCardCorrect(answerOption)
+                    }else{
+                        AnswerCardDefault(answerOption,onAnswerClick)
+                    }
+
                 }
             }
         }

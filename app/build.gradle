@@ -79,4 +79,7 @@ dependencies {
 
     //enable clickable
     implementation 'androidx.ui:ui-foundation:0.1.0-dev03'
+
+
+
 }
