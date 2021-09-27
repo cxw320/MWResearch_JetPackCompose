@@ -1,6 +1,7 @@
 package com.example.moneywiseresearch
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -32,6 +33,12 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -50,17 +57,52 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
            MyApp(
-               { QuizActivityScreen(quizViewModel) }
+               { MoneyWiseResearchApp(quizViewModel) }
            )
         }
     }
 }
 
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+@Composable
+fun MoneyWiseResearchApp(quizViewModel:QuizViewModel) {
+    val allScreens = TotalQuizScreens.values().toList()
+    val navController = rememberNavController()
+    val backstackEntry = navController.currentBackStackEntryAsState()
+    Scaffold(
+
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = TotalQuizScreens.QuizScreen1.name
+        ) {
+            composable(TotalQuizScreens.QuizScreen1.name) {
+                QuizActivityScreen(quizViewModel, { navigateToNextQuestion(navController) })
+            }
+            composable(TotalQuizScreens.QuizScreen2.name){
+                quizViewModel.retrieveNextQuestion()
+                Log.d("Caroline","next question retrieved : " + quizViewModel.questionCounter.toString())
+                QuizActivityScreen(quizViewModel, { navigateToNextQuestion(navController) })
+            }
+
+        }
+    }
+}
+
+private fun navigateToNextQuestion(
+    navController: NavHostController
+) {
+    Log.d("Caroline","Navigate to next question was called")
+    navController.navigate(TotalQuizScreens.QuizScreen2.name)
+}
+
+
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun QuizActivityScreen(quizViewModel: QuizViewModel){
+fun QuizActivityScreen(quizViewModel: QuizViewModel, navigateToNextQuestion: ()->Unit){
     val questionText : String by quizViewModel.questionText.observeAsState("")
     val answerOptions : List<String> by quizViewModel.answerText.observeAsState(listOf())
     val selectedAnswer: String by quizViewModel.selectedAnswer.observeAsState("")
@@ -72,6 +114,8 @@ fun QuizActivityScreen(quizViewModel: QuizViewModel){
     QuizScreen(
         currentQuestion = currentQuestion,
         onAnswerClick = {quizViewModel.selectAnswer(it)},
-        selectedAnswer = selectedAnswer
+        selectedAnswer = selectedAnswer,
+        navigateToNextQuestion = navigateToNextQuestion
     )
 }
+

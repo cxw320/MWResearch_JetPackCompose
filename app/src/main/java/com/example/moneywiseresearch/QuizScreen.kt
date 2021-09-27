@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavController
 
 
 @ExperimentalMaterialApi
@@ -33,7 +34,8 @@ import androidx.compose.runtime.setValue
 fun QuizScreen(
     currentQuestion: QuizQuestion,
     onAnswerClick: (String) -> Unit,
-    selectedAnswer: String
+    selectedAnswer: String,
+    navigateToNextQuestion: ()->Unit
     ){
 
     Scaffold(
@@ -43,7 +45,11 @@ fun QuizScreen(
         backgroundColor = Color(0xFFe8f5fa)
     ){
             innerPadding->
-        QuizLayout(Modifier.padding(innerPadding),currentQuestion, onAnswerClick,selectedAnswer)
+        QuizLayout(Modifier.padding(innerPadding),
+            currentQuestion,
+            onAnswerClick,
+            selectedAnswer,
+            navigateToNextQuestion)
     }
 
 }
@@ -55,7 +61,8 @@ fun QuizScreen(
 fun QuizLayout(modifier: Modifier = Modifier,
                 currentQuestion: QuizQuestion,
                onAnswerClick: (String)->Unit,
-               selectedAnswer:String
+               selectedAnswer:String,
+               navigateToNextQuestion: ()->Unit
                ) {
 
 
@@ -86,7 +93,7 @@ fun QuizLayout(modifier: Modifier = Modifier,
             ) {
                 QuestionText(currentQuestion.questionText)
             }
-            AnswerGrid(currentQuestion, onAnswerClick, selectedAnswer)
+            AnswerGrid(currentQuestion, onAnswerClick, selectedAnswer,navigateToNextQuestion)
 
 //                    items(currentQuestion.answerOptions) { answerOption ->
 //                        if(selectedAnswer==""){
@@ -111,7 +118,8 @@ fun QuizLayout(modifier: Modifier = Modifier,
 fun AnswerGrid(
     currentQuestion:QuizQuestion,
     onAnswerClick: (String) ->Unit,
-    selectedAnswer: String
+    selectedAnswer: String,
+    navigateToNextQuestion: () -> Unit
 ) {
     Surface(
         color = MaterialTheme.colors.primary,
@@ -137,7 +145,7 @@ fun AnswerGrid(
 
                 items(currentQuestion.answerOptions) { answerOption ->
                     if(answerOption == currentQuestion.correctAnswer){
-                        AnswerCardCorrect(answerOption)
+                        AnswerCardCorrect(answerOption,navigateToNextQuestion)
                     }else if(answerOption ==selectedAnswer){
                         AnswerCardIncorrect(answerOption)
                     }else{
@@ -147,7 +155,7 @@ fun AnswerGrid(
             } else {
                 items(currentQuestion.answerOptions) { answerOption ->
                     if(answerOption ==currentQuestion.correctAnswer){
-                        AnswerCardCorrect(answerOption)
+                        AnswerCardCorrect(answerOption,navigateToNextQuestion)
                     }else{
                         AnswerCardDefault(answerOption,onAnswerClick)
                     }
@@ -197,15 +205,20 @@ fun AnswerCardDefault(answerOption: String,onAnswerClick: (String) -> Unit ){
 }
 
 @Composable
-fun AnswerCardCorrect(answerOption: String ){
+fun AnswerCardCorrect(answerOption: String,navigateToNextQuestion: () -> Unit ){
     Card(
         shape = RoundedCornerShape(10.dp),
         backgroundColor = Color.White,
         modifier = Modifier.size(200.dp)
             .padding(10.dp)
+            .clickable{
+//                Log.d("Caroline","correct answer clickable was clicked")
+               navigateToNextQuestion()
+            }
             .border(
                 BorderStroke(5.dp, Color(0xFF62a54d))
             )
+
     ){
         AnswerText(answerOption,Color(0xFF62a54d))
     }

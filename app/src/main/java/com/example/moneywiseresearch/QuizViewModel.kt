@@ -24,6 +24,11 @@ class QuizViewModel : ViewModel(){
 
     var questionCounter : Int = 0
 
+    fun retrieveNextQuestion(){
+        questionCounter +=1
+        _selectedAnswer.value = ""
+    }
+
     fun selectAnswer(answerOptionText: String){
         //Log.d("Caroline",answerOptionText)
         _selectedAnswer.value = answerOptionText
@@ -44,7 +49,8 @@ class QuizViewModel : ViewModel(){
             "How many Time Tokens does it cost to Time Jump?",
             listOf("This is a trick question; you can't Time Jump!",
                 "1 Time Token per Time Jump",
-                "3 Time Tokens per Time Jump"),
+                "3 Time Tokens per Time Jump",
+                "2 Time Tokens per Time Jump"),
             "1 Time Token per Time Jump"
         )
 
