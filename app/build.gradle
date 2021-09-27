@@ -76,4 +76,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha07"
 
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+
+    //enable clickable
+    implementation 'androidx.ui:ui-foundation:0.1.0-dev03'
 }

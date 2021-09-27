@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun QuizScreen(
@@ -48,6 +49,7 @@ fun QuizScreen(
 
 data class AnswerOption(val answerOptionText: String)
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun QuizLayout(modifier: Modifier = Modifier,
@@ -62,6 +64,7 @@ fun QuizLayout(modifier: Modifier = Modifier,
         modifier = Modifier.size(780.dp).padding(20.dp)
     ) {
 
+        val (correctAnswer) = remember {mutableStateOf("")}
         val (quizContainer) = createRefs()
 
 
@@ -97,11 +100,11 @@ fun QuizLayout(modifier: Modifier = Modifier,
                 ) {
                     items(answerOptions) { answerOption ->
                         if(selectedAnswer==""){
-                            AnswerCard(answerOption, onAnswerClick)
+                            AnswerCardDefault(answerOption, onAnswerClick)
                         }else if (selectedAnswer == answerOption) {
-                            AnswerCard(answerOption, onAnswerClick)
+                            AnswerCardDefault(answerOption, onAnswerClick)
                         } else {
-                            AnswerCardFaded(answerOption)
+                            AnswerCardCorrect(answerOption)
                         }
                     }
                 }
@@ -131,31 +134,50 @@ fun QuestionText(questionText:String){
 }
 
 
+@ExperimentalMaterialApi
 @Composable
-fun AnswerCard(answerOption: String,onAnswerClick: (String) -> Unit ){
+fun AnswerCardDefault(answerOption: String,onAnswerClick: (String) -> Unit ){
     Card(
         shape = RoundedCornerShape(10.dp),
         backgroundColor = Color.White,
         modifier = Modifier.size(200.dp)
             .padding(10.dp)
-            .clickable{
-                Log.d("Caroline","clickable is working")
-                onAnswerClick(answerOption)
-                Log.d("Caroline","clickable is working")}
+            .clickable {
+                    Log.d("Caroline", "clickable in modifier working")
+                    onAnswerClick(answerOption)
+                }
     ){
         AnswerText(answerOption,Color(0xFF555555))
     }
 }
 
 @Composable
-fun AnswerCardFaded(answerOption: String ){
+fun AnswerCardCorrect(answerOption: String ){
     Card(
         shape = RoundedCornerShape(10.dp),
-        backgroundColor = Color.Gray,
+        backgroundColor = Color.White,
         modifier = Modifier.size(200.dp)
             .padding(10.dp)
+            .border(
+                BorderStroke(5.dp, Color(0xFF62a54d))
+            )
     ){
-        AnswerText(answerOption,Color.DarkGray)
+        AnswerText(answerOption,Color(0xFF62a54d))
+    }
+}
+
+@Composable
+fun AnswerCardInCorrect(answerOption: String ){
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        backgroundColor = Color.White,
+        modifier = Modifier.size(200.dp)
+            .padding(10.dp)
+            .border(
+                BorderStroke(5.dp, Color(0xFF62a54d))
+            )
+    ){
+        AnswerText(answerOption,Color(0xFF62a54d))
     }
 }
 
