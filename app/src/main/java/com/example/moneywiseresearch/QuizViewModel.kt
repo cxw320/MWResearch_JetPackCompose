@@ -22,9 +22,12 @@ class QuizViewModel : ViewModel(){
     private var _selectedAnswer= MutableLiveData<String>()
     val selectedAnswer : MutableLiveData<String> = _selectedAnswer
 
+    var questionCounter : Int = 0
+
     fun selectAnswer(answerOptionText: String){
         //Log.d("Caroline",answerOptionText)
         _selectedAnswer.value = answerOptionText
+        //questionCounter += 1
     }
 
     fun retrieveQuizData(){
@@ -49,7 +52,8 @@ class QuizViewModel : ViewModel(){
         var questionList : List<QuizQuestion> = listOf(
             question1, question2)
         _quizQuestionList.value = questionList
-        
+        _currentQuizQuestion.value = questionList[questionCounter]
+
 
     }
 

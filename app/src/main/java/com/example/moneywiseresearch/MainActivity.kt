@@ -42,6 +42,7 @@ import com.example.moneywiseresearch.ui.theme.MoneyWiseResearchTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    @ExperimentalMaterialApi
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         val quizViewModel by viewModels<QuizViewModel>()
@@ -55,16 +56,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//@ExperimentalFoundationApi
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreview() {
-//    MyApp{
-//
-//    }
-//}
 
-
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun QuizActivityScreen(quizViewModel: QuizViewModel){
@@ -72,12 +65,12 @@ fun QuizActivityScreen(quizViewModel: QuizViewModel){
     val answerOptions : List<String> by quizViewModel.answerText.observeAsState(listOf())
     val selectedAnswer: String by quizViewModel.selectedAnswer.observeAsState("")
 
+    val currentQuestion: QuizQuestion by quizViewModel.currentQuizQuestion.observeAsState(QuizQuestion("",listOf(""),""))
     //POPULATE VIEW MODEL DATA
     quizViewModel.retrieveQuizData()
 
     QuizScreen(
-        questionText = questionText,
-        answerOptions = answerOptions,
+        currentQuestion = currentQuestion,
         onAnswerClick = {quizViewModel.selectAnswer(it)},
         selectedAnswer = selectedAnswer
     )

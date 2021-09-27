@@ -29,8 +29,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 @ExperimentalFoundationApi
 @Composable
 fun QuizScreen(
-    questionText: String,
-    answerOptions:List<String>,
+    currentQuestion: QuizQuestion,
     onAnswerClick: (String) -> Unit,
     selectedAnswer: String
     ){
@@ -42,19 +41,17 @@ fun QuizScreen(
         backgroundColor = Color(0xFFe8f5fa)
     ){
             innerPadding->
-        QuizLayout(Modifier.padding(innerPadding),questionText,answerOptions, onAnswerClick,selectedAnswer)
+        QuizLayout(Modifier.padding(innerPadding),currentQuestion, onAnswerClick,selectedAnswer)
     }
 
 }
 
-data class AnswerOption(val answerOptionText: String)
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun QuizLayout(modifier: Modifier = Modifier,
-               questionText: String,
-               answerOptions: List<String>,
+                currentQuestion: QuizQuestion,
                onAnswerClick: (String)->Unit,
                selectedAnswer:String
                ) {
@@ -64,7 +61,7 @@ fun QuizLayout(modifier: Modifier = Modifier,
         modifier = Modifier.size(780.dp).padding(20.dp)
     ) {
 
-        val (correctAnswer) = remember {mutableStateOf("")}
+        val (correctAnswer) = remember {mutableStateOf(currentQuestion.correctAnswer)}
         val (quizContainer) = createRefs()
 
 
@@ -85,7 +82,7 @@ fun QuizLayout(modifier: Modifier = Modifier,
                 modifier = Modifier
                     .size(450.dp, 270.dp)
             ) {
-                QuestionText(questionText)
+                QuestionText(currentQuestion.questionText)
             }
             Surface(
                 color = MaterialTheme.colors.primary,
@@ -98,15 +95,42 @@ fun QuizLayout(modifier: Modifier = Modifier,
 //                        verticalArrangement = Arrangement.spacedBy(10.dp),
 //                        horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(answerOptions) { answerOption ->
-                        if(selectedAnswer==""){
-                            AnswerCardDefault(answerOption, onAnswerClick)
-                        }else if (selectedAnswer == answerOption) {
-                            AnswerCardDefault(answerOption, onAnswerClick)
-                        } else {
-                            AnswerCardCorrect(answerOption)
+
+                    if(selectedAnswer==""){
+                        items(currentQuestion.answerOptions) { answerOption ->
+                            AnswerCardDefault(answerOption,onAnswerClick)
+                        }
+                    }else if(selectedAnswer!=correctAnswer){
+                        items(currentQuestion.answerOptions) { answerOption ->
+                            if(answerOption == correctAnswer){
+                                AnswerCardCorrect(answerOption)
+                            }else if(answerOption == selectedAnswer){
+                                AnswerCardIncorrect(answerOption)
+                            }else{
+                                AnswerCardDefault(answerOption,onAnswerClick)
+                            }
+                        }
+                    }else{
+                        items(currentQuestion.answerOptions){answerOption ->
+                            if(answerOption==correctAnswer){
+                                AnswerCardCorrect(answerOption)
+                            }else{
+                                AnswerCardDefault(answerOption,onAnswerClick)
+                            }
                         }
                     }
+
+//                    items(currentQuestion.answerOptions) { answerOption ->
+//                        if(selectedAnswer==""){
+//                            AnswerCardDefault(answerOption, onAnswerClick)
+//                        }else if (selectedAnswer == answerOption && answerOption != correctAnswer) {
+//                            AnswerCardIncorrect(answerOption)
+//                        } else if (answerOption == correctAnswer){
+//                            AnswerCardCorrect(answerOption)
+//                        } else {
+//                            AnswerCardDefault(answerOption, onAnswerClick)
+//                        }
+//                    }
                 }
             }
         }
@@ -167,17 +191,17 @@ fun AnswerCardCorrect(answerOption: String ){
 }
 
 @Composable
-fun AnswerCardInCorrect(answerOption: String ){
+fun AnswerCardIncorrect(answerOption: String ){
     Card(
         shape = RoundedCornerShape(10.dp),
         backgroundColor = Color.White,
         modifier = Modifier.size(200.dp)
             .padding(10.dp)
             .border(
-                BorderStroke(5.dp, Color(0xFF62a54d))
+                BorderStroke(5.dp, Color(0xFF900603))
             )
     ){
-        AnswerText(answerOption,Color(0xFF62a54d))
+        AnswerText(answerOption,Color(0xFF900603))
     }
 }
 
