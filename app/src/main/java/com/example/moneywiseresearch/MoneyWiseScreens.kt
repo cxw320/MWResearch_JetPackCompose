@@ -1,9 +1,11 @@
 package com.example.moneywiseresearch
 
-enum class TotalQuizScreens(
+enum class MoneyWiseScreens(
 
 ) {
+    Splash(
 
+    ),
     QuizScreen1(
 
     ),

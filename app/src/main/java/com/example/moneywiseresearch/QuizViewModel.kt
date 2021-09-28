@@ -8,16 +8,9 @@ import androidx.lifecycle.ViewModel
 class QuizViewModel : ViewModel(){
 
     private var _quizQuestionList = MutableLiveData<List<QuizQuestion>>()
-    val quizQuestionList : MutableLiveData<List<QuizQuestion>> = _quizQuestionList
 
     private var _currentQuizQuestion = MutableLiveData<QuizQuestion>()
     val currentQuizQuestion : MutableLiveData<QuizQuestion> = _currentQuizQuestion
-
-    private var _questionText = MutableLiveData<String>()
-    val questionText: MutableLiveData<String> = _questionText
-
-    private var _answerOptionTexts = MutableLiveData(listOf<String>())
-    val answerText: MutableLiveData<List<String>> = _answerOptionTexts
 
     private var _selectedAnswer= MutableLiveData<String>()
     val selectedAnswer : MutableLiveData<String> = _selectedAnswer
@@ -30,9 +23,7 @@ class QuizViewModel : ViewModel(){
     }
 
     fun selectAnswer(answerOptionText: String){
-        //Log.d("Caroline",answerOptionText)
         _selectedAnswer.value = answerOptionText
-        //questionCounter += 1
     }
 
     fun retrieveQuizData(){

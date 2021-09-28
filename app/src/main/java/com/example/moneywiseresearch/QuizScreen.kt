@@ -1,6 +1,5 @@
 package com.example.moneywiseresearch
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
@@ -23,9 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.navigation.NavController
 
 
 @ExperimentalMaterialApi
@@ -94,20 +90,6 @@ fun QuizLayout(modifier: Modifier = Modifier,
                 QuestionText(currentQuestion.questionText)
             }
             AnswerGrid(currentQuestion, onAnswerClick, selectedAnswer,navigateToNextQuestion)
-
-//                    items(currentQuestion.answerOptions) { answerOption ->
-//                        if(selectedAnswer==""){
-//                            AnswerCardDefault(answerOption, onAnswerClick)
-//                        }else if (selectedAnswer == answerOption && answerOption != correctAnswer) {
-//                            AnswerCardIncorrect(answerOption)
-//                        } else if (answerOption == correctAnswer){
-//                            AnswerCardCorrect(answerOption)
-//                        } else {
-//                            AnswerCardDefault(answerOption, onAnswerClick)
-//                        }
-//                    }
-//                }
-//            }
         }
     }
 }
@@ -124,25 +106,19 @@ fun AnswerGrid(
     Surface(
         color = MaterialTheme.colors.primary,
     ) {
-        Log.d("Caroline","initial value for quiz layout: "+currentQuestion.correctAnswer)
-       // val correctAnswer by remember {mutableStateOf(currentQuestion.correctAnswer)}
 
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxSize(),
             contentPadding = PaddingValues(12.dp),
             cells = GridCells.Fixed(2)
-//                        verticalArrangement = Arrangement.spacedBy(10.dp),
-//                        horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Log.d("Caroline", "initial value for quiz layout: " + currentQuestion.correctAnswer)
 
             if (selectedAnswer == "") {
                 items(currentQuestion.answerOptions) { answerOption ->
                     AnswerCardDefault(answerOption, onAnswerClick)
                 }
             } else if (selectedAnswer != currentQuestion.correctAnswer) {
-
                 items(currentQuestion.answerOptions) { answerOption ->
                     if(answerOption == currentQuestion.correctAnswer){
                         AnswerCardCorrect(answerOption,navigateToNextQuestion)
@@ -196,7 +172,6 @@ fun AnswerCardDefault(answerOption: String,onAnswerClick: (String) -> Unit ){
         modifier = Modifier.size(200.dp)
             .padding(10.dp)
             .clickable {
-                    Log.d("Caroline", "clickable in modifier working")
                     onAnswerClick(answerOption)
                 }
     ){
@@ -212,7 +187,6 @@ fun AnswerCardCorrect(answerOption: String,navigateToNextQuestion: () -> Unit ){
         modifier = Modifier.size(200.dp)
             .padding(10.dp)
             .clickable{
-//                Log.d("Caroline","correct answer clickable was clicked")
                navigateToNextQuestion()
             }
             .border(
