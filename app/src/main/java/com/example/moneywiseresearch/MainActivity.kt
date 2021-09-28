@@ -36,9 +36,7 @@ class MainActivity : ComponentActivity() {
 @ExperimentalMaterialApi
 @Composable
 fun MoneyWiseResearchApp(quizViewModel:QuizViewModel) {
-   // val allScreens = MoneyWiseScreens.values().toList()
     val navController = rememberNavController()
-  //  val backstackEntry = navController.currentBackStackEntryAsState()
 
     Scaffold(
 
@@ -47,14 +45,18 @@ fun MoneyWiseResearchApp(quizViewModel:QuizViewModel) {
             navController = navController,
             startDestination = MoneyWiseScreens.Splash.name
         ) {
+
+            //define routes
             composable(MoneyWiseScreens.Splash.name){
                 SplashBody(){
-                    navController.navigate(MoneyWiseScreens.QuizScreen1.name){
+                    navController.navigate(MoneyWiseScreens.TapToBegin.name){
                         popUpTo(MoneyWiseScreens.Splash.name) {inclusive =true}
                     }
                 }
             }
-
+            composable(MoneyWiseScreens.TapToBegin.name){
+                TapToBegin()
+            }
             composable(MoneyWiseScreens.QuizScreen1.name) {
                 QuizActivityScreen(quizViewModel, { navigateToNextQuestion(navController, quizViewModel) })
             }
@@ -70,7 +72,6 @@ fun MoneyWiseResearchApp(quizViewModel:QuizViewModel) {
                 quizViewModel.retrieveNextQuestion()
                 QuizActivityScreen(quizViewModel, { navigateToNextQuestion(navController, quizViewModel) })
             }
-
         }
     }
 }
@@ -84,7 +85,6 @@ private fun navigateToNextQuestion(
         1 -> navController.navigate(MoneyWiseScreens.QuizScreen3.name)
         2 -> navController.navigate(MoneyWiseScreens.QuizScreen4.name)
     }
-
 }
 
 

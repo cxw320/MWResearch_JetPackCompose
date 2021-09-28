@@ -6,6 +6,10 @@ enum class MoneyWiseScreens(
     Splash(
 
     ),
+    TapToBegin(
+
+    ),
+
     QuizScreen1(
 
     ),

@@ -39,8 +39,7 @@ fun QuizScreen(
             .fillMaxHeight()
             .fillMaxWidth(),
         backgroundColor = Color(0xFFe8f5fa)
-    ){
-            innerPadding->
+    ){ innerPadding->
         QuizLayout(Modifier.padding(innerPadding),
             currentQuestion,
             onAnswerClick,
@@ -55,7 +54,7 @@ fun QuizScreen(
 @ExperimentalFoundationApi
 @Composable
 fun QuizLayout(modifier: Modifier = Modifier,
-                currentQuestion: QuizQuestion,
+               currentQuestion: QuizQuestion,
                onAnswerClick: (String)->Unit,
                selectedAnswer:String,
                navigateToNextQuestion: ()->Unit
@@ -135,7 +134,6 @@ fun AnswerGrid(
                     }else{
                         AnswerCardDefault(answerOption,onAnswerClick)
                     }
-
                 }
             }
         }
@@ -146,7 +144,6 @@ fun AnswerGrid(
 fun QuestionText(questionText:String){
     ConstraintLayout {
         val(questionTextConstraint) = createRefs()
-
         Text(text = questionText,
             color = Color.White,
             modifier = Modifier.constrainAs(questionTextConstraint) {
