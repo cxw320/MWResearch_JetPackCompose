@@ -56,11 +56,19 @@ fun MoneyWiseResearchApp(quizViewModel:QuizViewModel) {
             }
 
             composable(MoneyWiseScreens.QuizScreen1.name) {
-                QuizActivityScreen(quizViewModel, { navigateToNextQuestion(navController) })
+                QuizActivityScreen(quizViewModel, { navigateToNextQuestion(navController, quizViewModel) })
             }
             composable(MoneyWiseScreens.QuizScreen2.name){
                 quizViewModel.retrieveNextQuestion()
-                QuizActivityScreen(quizViewModel, { navigateToNextQuestion(navController) })
+                QuizActivityScreen(quizViewModel, { navigateToNextQuestion(navController, quizViewModel) })
+            }
+            composable(MoneyWiseScreens.QuizScreen3.name){
+                quizViewModel.retrieveNextQuestion()
+                QuizActivityScreen(quizViewModel, { navigateToNextQuestion(navController, quizViewModel) })
+            }
+            composable(MoneyWiseScreens.QuizScreen4.name){
+                quizViewModel.retrieveNextQuestion()
+                QuizActivityScreen(quizViewModel, { navigateToNextQuestion(navController, quizViewModel) })
             }
 
         }
@@ -68,10 +76,15 @@ fun MoneyWiseResearchApp(quizViewModel:QuizViewModel) {
 }
 
 private fun navigateToNextQuestion(
-    navController: NavHostController
+    navController: NavHostController,
+    quizViewModel: QuizViewModel
 ) {
-    Log.d("Caroline","Navigate to next question was called")
-    navController.navigate(MoneyWiseScreens.QuizScreen2.name)
+    when(quizViewModel.questionCounter){
+        0-> navController.navigate(MoneyWiseScreens.QuizScreen2.name)
+        1 -> navController.navigate(MoneyWiseScreens.QuizScreen3.name)
+        2 -> navController.navigate(MoneyWiseScreens.QuizScreen4.name)
+    }
+
 }
 
 

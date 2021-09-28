@@ -11,6 +11,12 @@ enum class MoneyWiseScreens(
     ),
     QuizScreen2(
 
+    ),
+    QuizScreen3(
+
+    ),
+    QuizScreen4(
+
     )
 
 }

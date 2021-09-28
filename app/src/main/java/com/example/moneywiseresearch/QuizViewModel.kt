@@ -45,9 +45,27 @@ class QuizViewModel : ViewModel(){
             "1 Time Token per Time Jump"
         )
 
+        var question3 = QuizQuestion(
+            "How do you make decisions?",
+            listOf("Swipe, Swipe",
+                "Tap, Tap",
+                "Wiggle, Wiggle",
+                "Click, Click"),
+            "Swipe, Swipe"
+        )
+
+        var question4 = QuizQuestion(
+            "How many Time Tokens does it cost to Time Jump?",
+            listOf("This is a trick question; you can't Time Jump!",
+                "1 Time Token per Time Jump",
+                "3 Time Tokens per Time Jump",
+                "2 Time Tokens per Time Jump"),
+            "1 Time Token per Time Jump"
+        )
+
 
         var questionList : List<QuizQuestion> = listOf(
-            question1, question2)
+            question1, question2, question3, question4)
         _quizQuestionList.value = questionList
         _currentQuizQuestion.value = questionList[questionCounter]
 
