@@ -55,7 +55,7 @@ fun MoneyWiseResearchApp(quizViewModel:QuizViewModel) {
                 }
             }
             composable(MoneyWiseScreens.TapToBegin.name){
-                TapToBegin()
+                TapToBegin({navController.navigate(MoneyWiseScreens.QuizScreen1.name)})
             }
             composable(MoneyWiseScreens.QuizScreen1.name) {
                 QuizActivityScreen(quizViewModel, { navigateToNextQuestion(navController, quizViewModel) })

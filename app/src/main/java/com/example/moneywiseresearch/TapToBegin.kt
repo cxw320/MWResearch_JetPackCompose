@@ -1,23 +1,26 @@
 package com.example.moneywiseresearch
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.airbnb.lottie.compose.*
 
 @Composable
-fun TapToBegin(){
+fun TapToBegin(navigationEvent: ()->Unit){
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.pigloop))
 
     // to control the animation
@@ -31,34 +34,41 @@ fun TapToBegin(){
 
     )
 
-    ConstraintLayout(){
-        val (tapCallToAction,animationContainer) = createRefs()
+    ConstraintLayout(
 
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .constrainAs(tapCallToAction) {
-                    top.linkTo(parent.top, margin = 7.dp)
-                }
-                .border(
-                    BorderStroke(10.dp, Color.Green)
-                )
-        ){
-            Text("Tap to begin!")
-        }
-        Box(
-            modifier = Modifier
-                        .constrainAs(animationContainer){
-                top.linkTo(tapCallToAction.bottom,margin = 7.dp)
+    ) {
+        val (tapCallToAction, animationContainer) = createRefs()
+
+        Scaffold(
+            backgroundColor = MaterialTheme.colors.primary
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .constrainAs(tapCallToAction) {
+                        top.linkTo(parent.top, margin = 20.dp)
+                    }
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .padding(20.dp)
+                    .background(Color(0xFF8ad4f0))
+            ) {
+                Text("Tap to begin!", fontSize = 45.sp, fontWeight = FontWeight.Bold)
             }
-        ){
-            LottieAnimation(composition,progress)
+            Box(
+                modifier = Modifier
+                    .constrainAs(animationContainer) {
+                        top.linkTo(parent.top, margin = 15.dp)
+                    }
+                    .clickable{
+                        navigationEvent()
+                    }
+            ) {
+                LottieAnimation(composition, progress)
+            }
         }
-
-
     }
-
 }
 
 

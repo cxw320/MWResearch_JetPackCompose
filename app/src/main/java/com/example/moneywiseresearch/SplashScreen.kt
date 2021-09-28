@@ -1,6 +1,8 @@
 package com.example.moneywiseresearch
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,7 +24,8 @@ fun SplashBody(onAnimationComplete:()->Unit){
         }
     }
 
-    Box(
+    Scaffold(
+        backgroundColor = MaterialTheme.colors.primary,
         modifier = Modifier.fillMaxSize()
     ){
         LottieAnimation(composition,progress)
